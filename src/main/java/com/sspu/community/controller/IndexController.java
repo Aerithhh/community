@@ -1,4 +1,4 @@
-package com.sspu.community;
+package com.sspu.community.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
