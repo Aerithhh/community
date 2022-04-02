@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link
+            href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+            rel="stylesheet">
+</head>
+
+<style>
+    p a {
+        background-color: white;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .search_form {
+        width: 602px;
+        height: 42px;
+    }
+
+    /*左边输入框设置样式*/
+    .input_text {
+        width: 200px;
+        height: 30px;
+        border: 1px solid green;
+        /*清除掉默认的padding*/
+        padding: 0px;
+        /*提示字首行缩进*/
+        text-indent: 10px;
+        /*去掉蓝色高亮框*/
+        outline: none;
+        /*用浮动解决内联元素错位及小间距的问题*/
+        float: left;
+    }
+
+    .input_sub {
+        width: 70px;
+        height: 30px;
+        background: green;
+        /*去掉submit按钮默认边框*/
+        border: 0px;
+        float: left;
+        color: white; /*搜索的字体颜色为白色*/
+        cursor: pointer; /*鼠标变为小手*/
+    }
+</style>
+
+<body>
+<h2>SpringBoot-CURD</h2>
+<form class="search_form" th:action="@{/user/updatePage}" method="post">
+    <input type="text" class="input_text" placeholder="请输入id搜索" name="id">
+    <input type="submit" value="搜索" class="input_sub">
+</form>
+
+<table
+        class="table table-striped table-bordered table-hover text-center">
+    <thead>
+    <tr style="text-align: center">
+        <th>id</th>
+        <th>name</th>
+        <th>pwd</th>
+        <th>email</th>
+        <th>age</th>
+        <th>operation</th>
+    </tr>
+    </thead>
+
+    <tr th:each="user:${pageInfo.list}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.pwd}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.age}"></td>
+        <td><a class="btn btn-primary"
+               th:href="@{/user/updateName(id=${user.id})}">更改</a> <a
+                class="btn btn-danger"
+                th:href="@{'/user/deleteUser?id='+${user.id}}">删除</a></td>
+    </tr>
+</table>
+
+<p>
+    当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span
+        th:text="${pageInfo.pages}"></span> 页,共 <span
+        th:text="${pageInfo.total}"></span> 条记录
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a th:href="@{/user/login(pageNum=1)}">首页</a>&nbsp;&nbsp;
+    <a th:href="@{/user/login(pageNum=${pageInfo.pageNum}-1)}">上一页</a>&nbsp;&nbsp;
+    <a th:href="@{/user/login(pageNum=${pageInfo.pageNum}+1)}">下一页</a>&nbsp;&nbsp;
+    <a th:href="@{/user/login(pageNum=${pageInfo.pages})}">尾页</a>
+</p>
+
+<button class="btn btn-block">
+    <a href="/user/useradd">添加用户</a>
+</button>
+
+</body>
+
+</html>
