@@ -1,15 +1,24 @@
 package com.sspu.community.service;
 
+import com.sspu.community.dto.CommentDTO;
 import com.sspu.community.enums.CommentTypeEnum;
 import com.sspu.community.exception.CustomizeErrorCode;
 import com.sspu.community.exception.CustomizeException;
 import com.sspu.community.mapper.CommentMapper;
 import com.sspu.community.mapper.QuestionExtMapper;
 import com.sspu.community.mapper.QuestionMapper;
-import com.sspu.community.model.Comment;
-import com.sspu.community.model.Question;
+import com.sspu.community.mapper.UserMapper;
+import com.sspu.community.model.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Sun
@@ -27,6 +36,7 @@ public class CommentService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
+    @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
